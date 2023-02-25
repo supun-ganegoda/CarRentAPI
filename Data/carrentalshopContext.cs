@@ -77,7 +77,7 @@ namespace CarRentAPI.Data
                 entity.Property(e => e.Transmission).HasMaxLength(6);
 
                 entity.Property(e => e.Url)
-                    .HasMaxLength(60)
+                    .HasMaxLength(100)
                     .HasColumnName("URL");
             });
 
@@ -150,7 +150,7 @@ namespace CarRentAPI.Data
                 entity.Property(e => e.Transmission).HasMaxLength(6);
 
                 entity.Property(e => e.Url)
-                    .HasMaxLength(60)
+                    .HasMaxLength(100)
                     .HasColumnName("URL");
             });
 
