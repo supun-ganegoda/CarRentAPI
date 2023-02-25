@@ -7,47 +7,47 @@ namespace CarRentAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class PaymentsController : ControllerBase
     {
         private readonly carrentalshopContext _context;
 
-        public UsersController(carrentalshopContext context)
+        public PaymentsController(carrentalshopContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/Payments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<Payment>>> GetPayments()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Payments.ToListAsync();
         }
 
-        // GET: api/Users/5
+        // GET: api/Payments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<Payment>> GetPayment(string id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var payment = await _context.Payments.FindAsync(id);
 
-            if (user == null)
+            if (payment == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return payment;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/Payments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutPayment(string id, Payment payment)
         {
-            if (id != user.Nic)
+            if (id != payment.PaymentId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(payment).State = EntityState.Modified;
 
             try
             {
@@ -55,7 +55,7 @@ namespace CarRentAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!PaymentExists(id))
                 {
                     return NotFound();
                 }
@@ -68,19 +68,19 @@ namespace CarRentAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/Payments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<Payment>> PostPayment(Payment payment)
         {
-            _context.Users.Add(user);
+            _context.Payments.Add(payment);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (UserExists(user.Nic))
+                if (PaymentExists(payment.PaymentId))
                 {
                     return Conflict();
                 }
@@ -90,28 +90,28 @@ namespace CarRentAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetUser", new { id = user.Nic }, user);
+            return CreatedAtAction("GetPayment", new { id = payment.PaymentId }, payment);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/Payments/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeletePayment(string id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var payment = await _context.Payments.FindAsync(id);
+            if (payment == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            _context.Payments.Remove(payment);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        private bool PaymentExists(string id)
         {
-            return _context.Users.Any(e => e.Nic == id);
+            return _context.Payments.Any(e => e.PaymentId == id);
         }
     }
 }
